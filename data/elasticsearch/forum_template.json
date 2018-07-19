@@ -5,7 +5,7 @@
     "index.mapper.dynamic": false
   },
   "mappings": {
-    "post": {
+    "posts": {
       "properties": {
         "body": {
           "type": "text"
@@ -24,7 +24,7 @@
         }
       }
     },
-    "thread": {
+    "threads": {
       "properties": {
         "thread_name": {
           "type": "text"
@@ -40,7 +40,7 @@
         }
       }
     },
-    "board": {
+    "boards": {
       "properties": {
         "board_name": {
           "type": "keyword"
