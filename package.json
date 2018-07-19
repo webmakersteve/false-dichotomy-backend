@@ -1,0 +1,37 @@
+{
+  "name": "false-dichotomy-backend",
+  "version": "0.0.1",
+  "description": "False dichotomy guild website backend. For all the things",
+  "main": "index.js",
+  "scripts": {
+    "test": "grunt test",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/webmakersteve/false-dichotomy-backend.git"
+  },
+  "keywords": [
+    "WoW",
+    "Guild"
+  ],
+  "author": "Stephen Parente <webmakersteve@gmail.com>",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/webmakersteve/false-dichotomy-backend/issues"
+  },
+  "homepage": "https://github.com/webmakersteve/false-dichotomy-backend#readme",
+  "dependencies": {
+    "bunyan": "^1.8.12",
+    "commander": "^2.16.0",
+    "elasticsearch": "^15.1.1",
+    "graphql": "^0.13.2",
+    "jsonwebtoken": "^8.3.0",
+    "koa": "^2.5.2",
+    "koa-router": "^7.4.0",
+    "node-yaml": "^3.1.1"
+  },
+  "devDependencies": {
+    "eslint": "^5.1.0"
+  }
+}

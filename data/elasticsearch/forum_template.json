@@ -1,0 +1,51 @@
+{
+  "template": "false-dichotomy-forums-*",
+  "settings": {
+    "number_of_shards": 1,
+    "index.mapper.dynamic": false
+  },
+  "mappings": {
+    "post": {
+      "properties": {
+        "body": {
+          "type": "text"
+        },
+        "created": {
+          "type": "long"
+        },
+        "updated": {
+          "type": "long"
+        },
+        "poster": {
+          "type": "keyword"
+        },
+        "thread": {
+          "type": "keyword"
+        }
+      }
+    },
+    "thread": {
+      "properties": {
+        "thread_name": {
+          "type": "text"
+        },
+        "board": {
+          "type": "keyword"
+        },
+        "poster": {
+          "type": "keyword"
+        },
+        "created": {
+          "type": "long"
+        }
+      }
+    },
+    "board": {
+      "properties": {
+        "board_name": {
+          "type": "keyword"
+        }
+      }
+    }
+  }
+}
