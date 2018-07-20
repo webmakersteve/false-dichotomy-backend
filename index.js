@@ -1,29 +1,28 @@
 #!/usr/bin/env node
+const program = require('commander');
+
 const pjs = require('./package.json');
 const { createServer } = require('./lib/server');
 const { loadConfig } = require('./lib/config/loader');
 const loggerFactory = require('./lib/logging/logger-factory');
 
-/**
- * Module dependencies.
- */
-const program = require('commander');
-
 const VERBOSITY_TABLE = [
   'info',
   'debug',
-  'trace'
-]
+  'trace',
+];
 
 function convertVerbosity(verbosity) {
-  verbosity = verbosity || 0;
-  if (verbosity >= VERBOSITY_TABLE.length) {
+  const v = verbosity || 0;
+  if (v >= VERBOSITY_TABLE.length) {
     return VERBOSITY_TABLE[VERBOSITY_TABLE.length - 1];
-  } else if (!verbosity) {
-    return VERBOSITY_TABLE[0];
-  } else {
-    return VERBOSITY_TABLE[verbosity];
   }
+
+  if (!v) {
+    return VERBOSITY_TABLE[0];
+  }
+
+  return VERBOSITY_TABLE[v];
 }
 
 function increaseVerbosity(v, total) {
@@ -52,7 +51,8 @@ const config = loadConfig({
 const logger = loggerFactory.configureRootLogger(config.logging);
 
 // At this point we can require files that bring a logger in...
-// Can avoid this if we rely on instantiation to set the logger up the first time inside those classes
+// Can avoid this if we rely on instantiation to set the logger up
+// the first time inside those classes
 // Not sure what the correct trade-off is.
 const Elasticsearch = require('./lib/persistence/elasticsearch');
 const BnetClient = require('./lib/services/bnet');
@@ -65,6 +65,8 @@ const server = createServer(config.http, {
   elasticsearch,
   bnet,
 });
+
+logger.info(config, `Server is listening on port ${config.http.port}`);
 
 // Listen on the server
 server.listen();

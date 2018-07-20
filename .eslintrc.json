@@ -1,0 +1,27 @@
+{
+  "extends": [
+    "airbnb-base"
+  ],
+  "rules": {
+    "camelcase": 0,
+    "no-underscore-dangle": [
+      2,
+      {
+        "allow": [
+          "_source",
+          "_shards"
+        ]
+      }
+    ],
+    "comma-dangle": [
+      2,
+      {
+        "arrays": "always-multiline",
+        "objects": "always-multiline",
+        "imports": "always-multiline",
+        "exports": "always-multiline",
+        "functions": "never"
+      }
+    ]
+  }
+}

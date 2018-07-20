@@ -7,6 +7,15 @@ services:
     ports:
       - "9200:9200"
 
+  postgres:
+    image: postgres:alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: falsedichotomy
+      POSTGRES_USER: fd
+      POSTGRES_PASSWORD: password
+
   site:
     build:
       dockerfile: Dockerfile
