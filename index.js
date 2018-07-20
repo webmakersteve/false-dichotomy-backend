@@ -2,12 +2,11 @@
 const pjs = require('./package.json');
 const { createServer } = require('./lib/server');
 const { loadConfig } = require('./lib/config/loader');
-const Elasticsearch = require('./lib/persistence/elasticsearch');
+const loggerFactory = require('./lib/logging/logger-factory');
 
 /**
  * Module dependencies.
  */
-
 const program = require('commander');
 
 const VERBOSITY_TABLE = [
@@ -49,11 +48,22 @@ const config = loadConfig({
   },
 }, program.args[0]);
 
+// Configure the root logger
+const logger = loggerFactory.configureRootLogger(config.logging);
+
+// At this point we can require files that bring a logger in...
+// Can avoid this if we rely on instantiation to set the logger up the first time inside those classes
+// Not sure what the correct trade-off is.
+const Elasticsearch = require('./lib/persistence/elasticsearch');
+const BnetClient = require('./lib/services/bnet');
+
 // Initialize backends now
 const elasticsearch = new Elasticsearch(config.elasticsearch);
+const bnet = new BnetClient(config.bnet);
 
 const server = createServer(config.http, {
   elasticsearch,
+  bnet,
 });
 
 // Listen on the server

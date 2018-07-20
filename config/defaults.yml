@@ -3,3 +3,5 @@ logging:
 
 http:
   port: 8080
+  host: localhost
+  fqdn: https://falsedichotomyguild.com
