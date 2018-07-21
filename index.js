@@ -56,14 +56,17 @@ const logger = loggerFactory.configureRootLogger(config.logging);
 // Not sure what the correct trade-off is.
 const Elasticsearch = require('./lib/persistence/elasticsearch');
 const BnetClient = require('./lib/services/bnet');
+const PostgresClient = require('./lib/persistence/postgres');
 
 // Initialize backends now
 const elasticsearch = new Elasticsearch(config.elasticsearch);
+const postgres = new PostgresClient(config.postgres);
 const bnet = new BnetClient(config.bnet);
 
 const server = createServer(config.http, {
   elasticsearch,
   bnet,
+  postgres,
 });
 
 logger.info(config, `Server is listening on port ${config.http.port}`);
