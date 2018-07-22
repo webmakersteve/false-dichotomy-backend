@@ -1,0 +1,8 @@
+{
+  "query": "mutation CreateBoard($input: BoardInput) { createBoard(input: $input) { slug } }",
+  "variables": {
+    "input": {
+      "name": "Stephen"
+    }
+  }
+}

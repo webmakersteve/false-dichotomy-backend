@@ -69,7 +69,7 @@ const server = createServer(config, {
   postgres,
 });
 
-logger.info(config, `Server is listening on port ${config.http.port}`);
+logger.info(config.http, `Server is listening on port ${config.http.port}`);
 
 // Listen on the server
 server.listen();

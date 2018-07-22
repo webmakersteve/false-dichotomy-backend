@@ -19,31 +19,8 @@
         "author": {
           "type": "keyword"
         },
-        "thread": {
-          "type": "keyword"
-        }
-      }
-    },
-    "threads": {
-      "properties": {
-        "thread_name": {
-          "type": "text"
-        },
-        "board": {
-          "type": "keyword"
-        },
-        "author": {
-          "type": "keyword"
-        },
-        "created": {
+        "topic": {
           "type": "long"
-        }
-      }
-    },
-    "boards": {
-      "properties": {
-        "board_name": {
-          "type": "keyword"
         }
       }
     }

@@ -33,14 +33,14 @@ module.exports.putDatabaseSchema = async function putDatabaseSchema(config, cb) 
       currentMigration = await getCurrentMigration();
     }
 
-    files.forEach(async (file) => {
+    await Promise.all(files.map(async (file) => {
       const basename = pathUtil.basename(file);
       const migrationNumber = parseInt(basename.substring(0, basename.indexOf('-')), 10);
 
       // If the migration number that should be run is greater than the current migration,
       // just skip it.
       if (migrationNumber <= currentMigration) {
-        return;
+        return Promise.resolve(true);
       }
 
       const contents = fs.readFileSync(file).toString();
@@ -54,12 +54,14 @@ module.exports.putDatabaseSchema = async function putDatabaseSchema(config, cb) 
 
       // Now update the migrations table
       if (migrationsTableExists) {
-        await pg.query('INSERT INTO migrations(migration_name, migration_id, completed) VALUES ($1, $2, $3)',
+        return pg.query('INSERT INTO migrations(migration_name, migration_id, completed) VALUES ($1, $2, $3)',
           basename,
           migrationNumber,
           new Date());
       }
-    });
+
+      return Promise.resolve(true);
+    }));
 
     return cb();
   } catch (e) {
