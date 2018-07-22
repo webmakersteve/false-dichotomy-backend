@@ -1,8 +1,9 @@
-const Postgres = require('../lib/persistence/postgres');
 const fs = require('fs');
-const glob = require('glob');
+const glob = require('glob'); // eslint-disable-line import/no-extraneous-dependencies
 const pathUtil = require('path');
 const util = require('util');
+
+const Postgres = require('../lib/persistence/postgres');
 
 const ROOT_DIR = pathUtil.resolve(__dirname, '..');
 const MIGRATION_DIR = pathUtil.resolve(ROOT_DIR, 'data', 'postgres');
@@ -17,9 +18,8 @@ module.exports.putDatabaseSchema = async function putDatabaseSchema(config, cb) 
 
     if (results.rows && results.rows[0].max_migration) {
       return results.rows[0].max_migration;
-    } else {
-      return 0;
     }
+    return 0;
   }
 
   try {
@@ -33,14 +33,14 @@ module.exports.putDatabaseSchema = async function putDatabaseSchema(config, cb) 
       currentMigration = await getCurrentMigration();
     }
 
-    for (file of files) {
+    files.forEach(async (file) => {
       const basename = pathUtil.basename(file);
-      const migrationNumber = parseInt(basename.substring(0, basename.indexOf('-')));
+      const migrationNumber = parseInt(basename.substring(0, basename.indexOf('-')), 10);
 
       // If the migration number that should be run is greater than the current migration,
       // just skip it.
       if (migrationNumber <= currentMigration) {
-        continue;
+        return;
       }
 
       const contents = fs.readFileSync(file).toString();
@@ -49,7 +49,7 @@ module.exports.putDatabaseSchema = async function putDatabaseSchema(config, cb) 
 
       // Check again if migrations table exists if we need to.
       if (!migrationsTableExists) {
-        migrationsTableExists = await pg.tableExists('migrations')
+        migrationsTableExists = await pg.tableExists('migrations');
       }
 
       // Now update the migrations table
@@ -57,16 +57,12 @@ module.exports.putDatabaseSchema = async function putDatabaseSchema(config, cb) 
         await pg.query('INSERT INTO migrations(migration_name, migration_id, completed) VALUES ($1, $2, $3)',
           basename,
           migrationNumber,
-          new Date(),
-        );
+          new Date());
       }
-
-    }
+    });
 
     return cb();
   } catch (e) {
-    cb(e);
-    return;
+    return cb(e);
   }
-
-}
+};

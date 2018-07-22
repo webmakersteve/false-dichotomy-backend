@@ -24,11 +24,11 @@ module.exports = (grunt) => {
     },
   });
 
-  grunt.registerTask('db:migrate', 'Initialize the Postgres and other databases', function(configFile) {
+  grunt.registerTask('db:migrate', 'Initialize the Postgres and other databases', function runDbMigrations(configFile) {
     const config = loadConfig({
       environment: process.env.NODE_ENV || 'build',
       logging: {
-        verbosity: 'fatal'
+        verbosity: 'fatal',
       },
     }, configFile);
 
