@@ -1,0 +1,8 @@
+{
+  "query": "query GetTopics($input: BoardInput!) { getTopics(input: $input) { slug, mostRecentPost { author { battletag }} } }",
+  "variables": {
+    "input": {
+      "slug": "board1"
+    }
+  }
+}

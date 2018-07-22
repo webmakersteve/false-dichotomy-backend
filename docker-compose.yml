@@ -4,6 +4,8 @@ version: '3.1'
 services:
   elasticsearch:
     image: elasticsearch
+    networks:
+      - default
     ports:
       - "9200:9200"
 
@@ -11,12 +13,14 @@ services:
     image: postgres:alpine
     ports:
       - "5432:5432"
+    networks:
+      - default
     environment:
       POSTGRES_DB: falsedichotomy
       POSTGRES_USER: fd
       POSTGRES_PASSWORD: password
 
-  site:
+  api:
     build:
       dockerfile: Dockerfile
       context: ./

@@ -4,5 +4,6 @@ CREATE TABLE posts(
   created_at DATE NOT NULL DEFAULT CURRENT_DATE,
   updated_at DATE NOT NULL DEFAULT CURRENT_DATE,
   author INTEGER NOT NULL REFERENCES users(bnet_account_id),
-  topic INTEGER NOT NULL REFERENCES topics(id)
+  topic INTEGER NOT NULL REFERENCES topics(id),
+  board INTEGER NOT NULL REFERENCES boards(id)
 );

@@ -1,6 +1,6 @@
 const { loadConfig } = require('./lib/config/loader');
 
-const { putDatabaseSchema } = require('./tasks/db');
+const { putDatabaseSchema, deleteDatabaseSchema } = require('./tasks/db');
 const { putElasticTemplates } = require('./tasks/elastic');
 
 module.exports = (grunt) => {
@@ -36,6 +36,19 @@ module.exports = (grunt) => {
     const done = this.async();
 
     putDatabaseSchema(config, done);
+  });
+
+  grunt.registerTask('db:deinit', 'Delete the tables in Postgres', function deinitDb(configFile) {
+    const config = loadConfig({
+      environment: process.env.NODE_ENV || 'build',
+      logging: {
+        verbosity: 'fatal',
+      },
+    }, configFile);
+
+    const done = this.async();
+
+    deleteDatabaseSchema(config, done);
   });
 
   grunt.registerTask('es:templates', 'Put elasticsearch templates', function runPutElasticTemplates(configFile) {

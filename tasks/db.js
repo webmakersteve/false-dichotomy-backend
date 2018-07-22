@@ -23,7 +23,17 @@ module.exports.putDatabaseSchema = async function putDatabaseSchema(config, cb) 
   }
 
   try {
-    const files = await globPromise(pathUtil.join(MIGRATION_DIR, '*.sql'));
+    const globbedFiles = await globPromise(pathUtil.join(MIGRATION_DIR, '*.sql'));
+    const files = globbedFiles.map((filename) => {
+      const basename = pathUtil.basename(filename);
+      const migrationNumber = parseInt(basename.substring(0, basename.indexOf('-')), 10);
+
+      return {
+        basename,
+        migrationNumber,
+        filename,
+      };
+    }).sort((a, b) => a.migrationNumber - b.migrationNumber);
 
     let migrationsTableExists = await pg.tableExists('migrations');
     let currentMigration = -1;
@@ -33,17 +43,16 @@ module.exports.putDatabaseSchema = async function putDatabaseSchema(config, cb) 
       currentMigration = await getCurrentMigration();
     }
 
-    await Promise.all(files.map(async (file) => {
-      const basename = pathUtil.basename(file);
-      const migrationNumber = parseInt(basename.substring(0, basename.indexOf('-')), 10);
+    for (let file of files) {
+      const { filename, basename, migrationNumber } = file;
 
       // If the migration number that should be run is greater than the current migration,
       // just skip it.
       if (migrationNumber <= currentMigration) {
-        return Promise.resolve(true);
+        continue;
       }
 
-      const contents = fs.readFileSync(file).toString();
+      const contents = fs.readFileSync(filename).toString();
 
       await pg.query(contents);
 
@@ -54,15 +63,24 @@ module.exports.putDatabaseSchema = async function putDatabaseSchema(config, cb) 
 
       // Now update the migrations table
       if (migrationsTableExists) {
-        return pg.query('INSERT INTO migrations(migration_name, migration_id, completed) VALUES ($1, $2, $3)',
+        await pg.query('INSERT INTO migrations(migration_name, migration_id, completed) VALUES ($1, $2, $3)',
           basename,
           migrationNumber,
           new Date());
       }
+    };
 
-      return Promise.resolve(true);
-    }));
+    return cb();
+  } catch (e) {
+    return cb(e);
+  }
+};
 
+module.exports.deleteDatabaseSchema = async function deleteDatabaseSchema(config, cb) {
+  const pg = new Postgres(config.postgres);
+
+  try {
+    await pg.tableExists('migrations');
     return cb();
   } catch (e) {
     return cb(e);
