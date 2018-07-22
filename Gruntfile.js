@@ -1,3 +1,7 @@
+const { loadConfig } = require('./lib/config/loader');
+
+const { putDatabaseSchema } = require('./tasks/db');
+
 module.exports = (grunt) => {
   grunt.initConfig({
     eslint: {
@@ -18,6 +22,19 @@ module.exports = (grunt) => {
       files: ['**/*.js', '!node_modules/**', '!rpmbuild/**'],
       tasks: ['eslint', 'test'],
     },
+  });
+
+  grunt.registerTask('db:migrate', 'Initialize the Postgres and other databases', function(configFile) {
+    const config = loadConfig({
+      environment: process.env.NODE_ENV || 'build',
+      logging: {
+        verbosity: 'fatal'
+      },
+    }, configFile);
+
+    const done = this.async();
+
+    putDatabaseSchema(config, done);
   });
 
   grunt.loadNpmTasks('grunt-eslint');
