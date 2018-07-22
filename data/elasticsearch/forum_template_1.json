@@ -7,7 +7,7 @@
   "mappings": {
     "posts": {
       "properties": {
-        "body": {
+        "content": {
           "type": "text"
         },
         "created": {
@@ -16,7 +16,7 @@
         "updated": {
           "type": "long"
         },
-        "poster": {
+        "author": {
           "type": "keyword"
         },
         "thread": {
@@ -32,7 +32,7 @@
         "board": {
           "type": "keyword"
         },
-        "poster": {
+        "author": {
           "type": "keyword"
         },
         "created": {

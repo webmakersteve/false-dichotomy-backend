@@ -63,7 +63,7 @@ const elasticsearch = new Elasticsearch(config.elasticsearch);
 const postgres = new PostgresClient(config.postgres);
 const bnet = new BnetClient(config.bnet);
 
-const server = createServer(config.http, {
+const server = createServer(config, {
   elasticsearch,
   bnet,
   postgres,
