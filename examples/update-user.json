@@ -1,7 +1,9 @@
 {
-  "query": "mutation UpdateUser($firstName: String, $lastName: String) { updateUser(firstName: $firstName, lastName: $lastName) { firstName } }",
+  "query": "mutation updateCurrentUser($input: UserInput!) { updateCurrentUser(input: $input) { firstName } }",
   "variables": {
-    "firstName": "Stephen",
-    "lastName": "Parente"
+    "input": {
+      "firstName": "Stephen",
+      "lastName": "Parente"
+    }
   }
 }

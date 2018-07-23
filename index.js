@@ -2,7 +2,6 @@
 const program = require('commander');
 
 const pjs = require('./package.json');
-const { createServer } = require('./lib/server');
 const { loadConfig } = require('./lib/config/loader');
 const loggerFactory = require('./lib/logging/logger-factory');
 
@@ -43,7 +42,7 @@ const config = loadConfig({
     port: program.port,
   },
   logging: {
-    verbosity: convertVerbosity(program.verbose),
+    level: convertVerbosity(program.verbose),
   },
 }, program.args[0]);
 
@@ -57,6 +56,7 @@ const logger = loggerFactory.configureRootLogger(config.logging);
 const Elasticsearch = require('./lib/persistence/elasticsearch');
 const BnetClient = require('./lib/services/bnet');
 const PostgresClient = require('./lib/persistence/postgres');
+const { createServer } = require('./lib/server');
 
 // Initialize backends now
 const elasticsearch = new Elasticsearch(config.elasticsearch);
