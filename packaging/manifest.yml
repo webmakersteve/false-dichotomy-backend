@@ -36,6 +36,11 @@ spec:
           ports:
             - containerPort: 9200
               protocol: TCP
+            - containerPort: 9300
+              protocol: TCP
+          env:
+            - name: discovery.type
+              value: single-node
         - image: webmakersteve/nottoscale-backend:latest
           imagePullPolicy: Always
           name: nottoscale-backend
