@@ -77,7 +77,7 @@ handleWebsockets(config, server, services, (sock) => {
   logger.info({ connectedUser: sock.name }, `User is connected: ${sock.name}`);
   sock.send('loggedIn', { user: sock.name });
 
-  bindHandlers(sock);
+  bindHandlers(config, sock);
 });
 
 logger.info(config.http, `Server is listening on port ${config.http.port}`);

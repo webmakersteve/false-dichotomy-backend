@@ -1,0 +1,108 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    commit: {{COMMIT_HASH}}
+  labels:
+    app: nottoscale-backend
+  name: nottoscale-backend
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nottoscale-backend
+  template:
+    metadata:
+      labels:
+        app: nottoscale-backend
+    spec:
+      volumes:
+        - name: config
+          secret:
+            secretName: nottoscale-config
+      containers:
+        - image: webmakersteve/nottoscale-backend:latest
+          imagePullPolicy: Always
+          name: nottoscale-backend
+          volumeMounts:
+          - name: config
+            mountPath: "/etc/falsedichotomy"
+            readOnly: true
+          env:
+            - name: COMMIT
+              value: {{COMMIT_HASH}}
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nottoscale-backend
+  namespace: default
+  labels:
+    app: nottoscale-backend
+spec:
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 8080
+      name: http
+  selector:
+    app: nottoscale-backend
+  type: ClusterIP
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: nottoscale-backend
+  namespace: default
+  labels:
+    app: nottoscale-backend
+  annotations:
+    kubernetes.io/ingress.class: external
+spec:
+  tls:
+  - hosts:
+      - nottoscale.myamtech.io
+    secretName: nottoscale-myamtechio-cert
+  rules:
+    - host: nottoscale.myamtech.io
+      http:
+        paths:
+          - backend:
+              serviceName: nottoscale-backend
+              servicePort: 80
+            path: /api
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: nottoscale-backend
+  namespace: monitoring
+  labels:
+    app: nottoscale-backend
+    release: prom
+spec:
+  namespaceSelector:
+    matchNames:
+      - default
+  selector:
+    matchLabels:
+      app: nottoscale-backend
+  endpoints:
+    - port: http
+      interval: 15s

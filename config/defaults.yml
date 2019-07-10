@@ -5,3 +5,9 @@ http:
   port: 8080
   host: localhost
   fqdn: https://nottoscale.myamtech.io
+
+bingo:
+  - 'Foo'
+  - 'Bar'
+  - 'Fee'
+  - 'Foo'

@@ -5,7 +5,7 @@ WORKDIR /usr/local/falsedichotomy
 COPY package.json .
 COPY package-lock.json .
 
-RUN npm install
+RUN npm install --production
 
 COPY config config
 COPY data data
