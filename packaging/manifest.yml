@@ -22,6 +22,20 @@ spec:
           secret:
             secretName: nottoscale-config
       containers:
+        - image: postgres
+          name: postgres
+          env:
+            - name: POSTGRES_PASSWORD
+              value: password
+            - name: POSTGRES_DB
+              value: falsedichotomy
+            - name: POSTGRES_USER
+              value: fd
+        - image: elasticsearch
+          name: elasticsearch
+          ports:
+            - containerPort: 9200
+              protocol: TCP
         - image: webmakersteve/nottoscale-backend:latest
           imagePullPolicy: Always
           name: nottoscale-backend
