@@ -72,10 +72,10 @@ const services = {
   prom,
 };
 
+
 const server = createServer(config, services);
 handleWebsockets(config, server, services, (sock) => {
   logger.info({ connectedUser: sock.name }, `User is connected: ${sock.name}`);
-  sock.send('loggedIn', { user: sock.name });
 
   bindHandlers(config, sock);
 });

@@ -72,5 +72,5 @@ const client = new BackendClient({
 
 (async () => {
   await BackendClient.preloadQueries();
-  const body = await client.getBoards();
+  await client.getBoards();
 })();
