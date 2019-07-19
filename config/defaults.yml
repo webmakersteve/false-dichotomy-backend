@@ -4,7 +4,7 @@ logging:
 http:
   port: 8080
   host: localhost
-  fqdn: http://localhost:8080
+  fqdn: https://nottoscale.myamtech.io
 
 bingo:
   - Ragin said "Check your Flasks"
