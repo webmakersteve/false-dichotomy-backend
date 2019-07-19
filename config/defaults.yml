@@ -4,7 +4,7 @@ logging:
 http:
   port: 8080
   host: localhost
-  fqdn: https://nottoscale.myamtech.io
+  fqdn: http://localhost:8080
 
 bingo:
   - Ragin said "Check your Flasks"
@@ -35,3 +35,11 @@ bingo:
   - Kassima forgets to check that his mike is working
   - Flame has to tend to his child
   - Ragin types "F" in chat in response to something
+
+elasticsearch:
+  hosts: ''
+
+bnet:
+  id: 'lies'
+
+discord: {}
