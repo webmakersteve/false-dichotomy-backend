@@ -37,7 +37,8 @@ bingo:
   - Ragin types "F" in chat in response to something
 
 elasticsearch:
-  hosts: ''
+  hosts:
+    - https://search-home-not-to-scale-t2ue33ddjv3cw7yz6rftydanmu.us-west-2.es.amazonaws.com
 
 bnet:
   id: 'lies'

@@ -57,20 +57,17 @@ const Elasticsearch = require('./lib/persistence/elasticsearch');
 const BnetClient = require('./lib/services/bnet');
 const DiscordClient = require('./lib/services/discord');
 const prom = require('./lib/services/metrics');
-const PostgresClient = require('./lib/persistence/postgres');
 const { createServer } = require('./lib/server');
 const { handleWebsockets, bindHandlers } = require('./lib/websocket');
 
 // Initialize backends now
 const elasticsearch = new Elasticsearch(config.elasticsearch);
-const postgres = new PostgresClient(config.postgres);
 const bnet = new BnetClient(config.bnet);
 const discord = new DiscordClient(config.discord);
 
 const services = {
   elasticsearch,
   bnet,
-  postgres,
   prom,
   discord,
 };
