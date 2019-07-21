@@ -10,7 +10,7 @@ pipeline {
     stage('Publish') {
       steps {
         sh 'docker push webmakersteve/nottoscale-backend:latest'
-        sh 'docker push 575393002463.dkr.ecr.us-west-2.amazonaws.com/myamtechio/not2scale/backend:latest || exit 0'
+        sh 'docker push 575393002463.dkr.ecr.us-west-2.amazonaws.com/myamtechio/not2scale-backend:latest || exit 0'
       }
     }
     stage('Deploy') {
