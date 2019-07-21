@@ -6,10 +6,8 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        script {
-          def version = version.getVersion(this)
-          log.info version
-          sh 'docker build -t 575393002463.dkr.ecr.us-west-2.amazonaws.com/nottoscale/backend:$version .'
+        withVersion {
+          sh 'docker build -t 575393002463.dkr.ecr.us-west-2.amazonaws.com/nottoscale/backend:$VERSION .'
         }
         sh 'docker build -t 575393002463.dkr.ecr.us-west-2.amazonaws.com/nottoscale/backend:${GIT_COMMIT} -t webmakersteve/nottoscale-backend:latest .'
       }
