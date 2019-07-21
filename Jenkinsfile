@@ -1,9 +1,14 @@
+@Library('webmakersteve') _
+
 pipeline {
   agent any
 
   stages {
     stage('Build') {
       steps {
+        script {
+          log.info 'We are logging with shared libraries now baby'
+        }
         sh 'docker build -t 575393002463.dkr.ecr.us-west-2.amazonaws.com/nottoscale/backend:${GIT_COMMIT} -t webmakersteve/nottoscale-backend:latest .'
       }
     }
