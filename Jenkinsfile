@@ -7,7 +7,9 @@ pipeline {
     stage('Build') {
       steps {
         script {
-          log.info 'We are logging with shared libraries now baby'
+          def version = version.getVersion(this)
+          log.info version
+          sh 'docker build -t 575393002463.dkr.ecr.us-west-2.amazonaws.com/nottoscale/backend:$version .'
         }
         sh 'docker build -t 575393002463.dkr.ecr.us-west-2.amazonaws.com/nottoscale/backend:${GIT_COMMIT} -t webmakersteve/nottoscale-backend:latest .'
       }
