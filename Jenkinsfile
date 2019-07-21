@@ -1,5 +1,10 @@
 @Library('webmakersteve') _
 
+publishedImages = [
+  "575393002463.dkr.ecr.us-west-2.amazonaws.com/nottoscale/backend",
+  "webmakersteve/nottoscale-backend"
+]
+
 pipeline {
   agent any
 
@@ -7,15 +12,19 @@ pipeline {
     stage('Build') {
       steps {
         withVersion {
-          sh 'docker build -t 575393002463.dkr.ecr.us-west-2.amazonaws.com/nottoscale/backend:$VERSION .'
+          script {
+            dockerHelper.build(this, publishedImages)
+          }
         }
-        sh 'docker build -t 575393002463.dkr.ecr.us-west-2.amazonaws.com/nottoscale/backend:${GIT_COMMIT} -t webmakersteve/nottoscale-backend:latest .'
       }
     }
     stage('Publish') {
       steps {
-        sh 'docker push webmakersteve/nottoscale-backend:latest'
-        sh 'docker push 575393002463.dkr.ecr.us-west-2.amazonaws.com/nottoscale/backend:${GIT_COMMIT} || exit 0'
+        withVersion {
+          script {
+            dockerHelper.publish(this, publishedImages)
+          }
+        }
       }
     }
     stage('Deploy') {
@@ -29,7 +38,11 @@ pipeline {
   }
   post {
     always {
-      sh 'docker rmi -f webmakersteve/nottoscale-backend:latest || exit 0'
+      withVersion {
+        script {
+          dockerHelper.clean(this, publishedImages)
+        }
+      }
     }
   }
 }
