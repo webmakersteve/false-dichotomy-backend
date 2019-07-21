@@ -1,8 +1,7 @@
 @Library('webmakersteve') _
 
 publishedImages = [
-  "575393002463.dkr.ecr.us-west-2.amazonaws.com/nottoscale/backend",
-  "webmakersteve/nottoscale-backend"
+  "575393002463.dkr.ecr.us-west-2.amazonaws.com/nottoscale/backend"
 ]
 
 pipeline {

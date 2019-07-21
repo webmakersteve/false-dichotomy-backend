@@ -22,16 +22,13 @@ spec:
           secret:
             secretName: nottoscale-config
       containers:
-        - image: webmakersteve/nottoscale-backend:latest
+        - image: 575393002463.dkr.ecr.us-west-2.amazonaws.com/nottoscale/backend:latest
           imagePullPolicy: Always
           name: default
           volumeMounts:
           - name: config
             mountPath: "/etc/falsedichotomy"
             readOnly: true
-          env:
-            - name: COMMIT
-              value: {{COMMIT_HASH}}
           ports:
             - containerPort: 8080
               protocol: TCP
