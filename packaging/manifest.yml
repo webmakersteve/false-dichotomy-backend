@@ -25,6 +25,17 @@ spec:
         - image: 575393002463.dkr.ecr.us-west-2.amazonaws.com/nottoscale/backend:latest
           imagePullPolicy: Always
           name: default
+          env:
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: nottoscale-env-config
+                  key: AWS_SECRET_ACCESS_KEY
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: nottoscale-env-config
+                  key: AWS_ACCESS_KEY_ID
           volumeMounts:
           - name: config
             mountPath: "/etc/falsedichotomy"
