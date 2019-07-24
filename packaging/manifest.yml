@@ -26,6 +26,8 @@ spec:
           imagePullPolicy: Always
           name: default
           env:
+            - name: COMMIT
+              value: {{COMMIT_HASH}}
             - name: AWS_SECRET_ACCESS_KEY
               valueFrom:
                 secretKeyRef:
