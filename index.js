@@ -57,6 +57,7 @@ const Elasticsearch = require('./lib/persistence/elasticsearch');
 const BnetClient = require('./lib/services/bnet');
 const DiscordClient = require('./lib/services/discord');
 const DynamoClient = require('./lib/persistence/dynamo');
+const SqsClient = require('./lib/persistence/sqs');
 const prom = require('./lib/services/metrics');
 const { createServer } = require('./lib/server');
 const { handleWebsockets, bindHandlers } = require('./lib/websocket');
@@ -66,6 +67,7 @@ const elasticsearch = new Elasticsearch(config.elasticsearch);
 const bnet = new BnetClient(config.bnet);
 const discord = new DiscordClient(config.discord);
 const dynamo = new DynamoClient(config.dynamo);
+const sqs = new SqsClient(config.sqs);
 
 const services = {
   elasticsearch,
@@ -73,13 +75,14 @@ const services = {
   prom,
   discord,
   dynamo,
+  sqs,
 };
 
 const server = createServer(config, services);
 handleWebsockets(config, server, services, (sock) => {
   logger.info({ connectedUser: sock.name }, `User is connected: ${sock.name}`);
 
-  bindHandlers(config, sock);
+  bindHandlers(config, sock, services);
 });
 
 logger.info(config.http, `Server is listening on port ${config.http.port}`);
