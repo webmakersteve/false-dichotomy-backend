@@ -23,7 +23,9 @@ pipeline {
     }
     stage('Publish') {
       when {
-        !changeRequest()
+        expression {
+          changeRequest() == false
+        }
       }
 
       steps {
@@ -32,17 +34,6 @@ pipeline {
             dockerHelper.publish(this, publishedImages)
           }
         }
-      }
-    }
-    stage('Deploy') {
-      when {
-        expression {
-          changeRequest() == false
-        }
-      }
-
-      steps {
-        sh 'cat packaging/manifest.yml | sed "s/{{COMMIT_HASH}}/${GIT_COMMIT:-local}/g" | kubectl apply -f -'
       }
     }
   }
