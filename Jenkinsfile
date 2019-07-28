@@ -21,11 +21,10 @@ pipeline {
         }
       }
     }
+
     stage('Publish') {
       when {
-        expression {
-          changeRequest() == false
-        }
+        branch 'master'
       }
 
       steps {
