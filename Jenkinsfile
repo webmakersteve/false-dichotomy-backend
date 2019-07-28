@@ -35,7 +35,7 @@ pipeline {
         branch 'master'
       }
       steps {
-        sh 'cat packaging/manifest.yml | sed "s/{{COMMIT_HASH}}/${GIT_COMMIT:-local}/g" | kubectl apply -f -'
+        sh 'cat packaging/manifest.yml  | sed "s/{{COMMIT_HASH}}/${GIT_COMMIT:-local}/g" | kubectl apply -f -'
       }
     }
   }
