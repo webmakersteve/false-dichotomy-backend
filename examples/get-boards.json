@@ -1,0 +1,3 @@
+{
+  "query": "{ getBoards { name, mostRecentPost { topic, author { battletag }} } }"
+}

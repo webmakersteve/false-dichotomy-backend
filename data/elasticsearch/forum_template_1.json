@@ -1,0 +1,28 @@
+{
+  "template": "false-dichotomy-forums-*",
+  "settings": {
+    "number_of_shards": 1,
+    "index.mapper.dynamic": false
+  },
+  "mappings": {
+    "posts": {
+      "properties": {
+        "content": {
+          "type": "text"
+        },
+        "created": {
+          "type": "long"
+        },
+        "updated": {
+          "type": "long"
+        },
+        "author": {
+          "type": "keyword"
+        },
+        "topic": {
+          "type": "long"
+        }
+      }
+    }
+  }
+}

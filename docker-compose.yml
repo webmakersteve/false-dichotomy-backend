@@ -1,0 +1,41 @@
+---
+version: '3.1'
+
+services:
+  elasticsearch:
+    image: elasticsearch
+    networks:
+      - default
+    ports:
+      - "9200:9200"
+
+  postgres:
+    image: postgres:alpine
+    ports:
+      - "5432:5432"
+    networks:
+      - default
+    environment:
+      POSTGRES_DB: falsedichotomy
+      POSTGRES_USER: fd
+      POSTGRES_PASSWORD: password
+
+  api:
+    build:
+      dockerfile: Dockerfile
+      context: ./
+    expose:
+      - "8080"
+    networks:
+      - default
+
+  nginx:
+    image: nginx
+    ports:
+      - "443:443"
+    networks:
+      - default
+    volumes:
+      - ./docker/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./docker/snakeoil.crt:/etc/nginx/ssl/snakeoil.crt:ro
+      - ./docker/snakeoil.key:/etc/nginx/ssl/snakeoil.key:ro

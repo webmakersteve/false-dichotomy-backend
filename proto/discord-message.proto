@@ -1,0 +1,11 @@
+syntax = "proto2";
+
+package myamatech;
+
+option go_package = "github.com/webmakersteve/myamtech-bot/proto";
+
+message DiscordMessage {
+  optional string channel = 1;
+  optional string payload = 2;
+}
+

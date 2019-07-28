@@ -1,0 +1,11 @@
+{
+  "query": "mutation CreateTopic($input: TopicInput!) { createTopic(input: $input) { slug } }",
+  "variables": {
+    "input": {
+      "board": {
+        "slug": "board1"
+      },
+      "name": "Stephen"
+    }
+  }
+}

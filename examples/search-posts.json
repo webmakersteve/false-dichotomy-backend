@@ -1,0 +1,3 @@
+{
+  "query": "{ searchPosts(q: \"VE*\") { poster, body } }"
+}

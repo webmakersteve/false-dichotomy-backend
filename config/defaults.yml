@@ -1,0 +1,60 @@
+logging:
+  verbosity: info
+
+http:
+  port: 8080
+  host: localhost
+  fqdn: https://nottoscale.myamtech.io
+
+seed:
+  prefix: firstthyme
+
+bingo:
+  - Ragin says "Check your Flasks"
+  - Takis are mentioned
+  - Raid scaling kills us all - thanks Scott
+  - Tracy does a tracy - e.g. no contacts, can't hear
+  - Ret is mentioned
+  - Tallianna dies first, preferably while whirl-winding
+  - We kill a new boss!
+  - Wipe in less than 90 seconds
+  - Tiran criticizes the low-grade SSL cert
+  - Myamtech is recognized to be great
+  - Mel announces a mechanic to the raid in force
+  - "Someone needs to put on a MAGA hat"
+  - Two feasts are placed
+  - Alaunius saves us all. This is a free tile.
+  - We take our break
+  - Someone gets a titanforged piece of loot
+  - Early pull
+  - 4 people in the raid pre-pot on a pull
+  - Mouth-breathing open-mike-ing
+  - Someone deserves to be demoted to Chef Mike. Argue your case
+  - Someone asks for a repair bot within 30 minutes of another one being dropped
+  - Someone else gets "Bingo"
+  - Someone finds a bug in the site
+  - Skrappy has to help heal
+  - Kassima forgets to check that his mike is working
+  - Flame has to tend to his child
+  - Ragin types "F" in chat in response to something
+  - Angels bless us during the time we kill a boss
+  - Someone says "screams" but doesn't actually scream
+  - Fall damage claims a life
+  - Zedd pulls a pull that does not need to be pulled
+  - Winston is heard in the background
+  - A "fire" meme is posted in chat
+  - Someone - anyone - needs to tend to their pet
+  - We find a bug in a raid encounter... or it's BREAK TIME. Whichever first
+
+elasticsearch:
+  hosts:
+    - https://search-home-not-to-scale-t2ue33ddjv3cw7yz6rftydanmu.us-west-2.es.amazonaws.com
+
+bnet:
+  id: 'lies'
+
+discord: {}
+
+sqs:
+  queues:
+    default: https://sqs.us-west-2.amazonaws.com/575393002463/homenot_to_scale_20190721061215856500000001
